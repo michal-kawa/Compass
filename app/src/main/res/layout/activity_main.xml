@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NavigationActivity">
+
+    <TextView
+        android:id="@+id/tv_distance_to_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35sp"
+        android:background="@drawable/destination_background"
+        android:paddingLeft="35dp"
+        android:paddingTop="15dp"
+        android:paddingRight="35dp"
+        android:paddingBottom="15dp"
+        android:text="@string/distance_information"
+        android:textAlignment="center"
+        android:textColor="@color/compass"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Distance from the destination: 1000m" />
+
+    <ImageView
+        android:id="@+id/iv_compass_face"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5sp"
+        android:contentDescription="@string/compass_image_description"
+        app:layout_constraintBottom_toTopOf="@+id/btn_set_destination"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_distance_to_destination"
+        app:srcCompat="@drawable/pointer_small" />
+
+    <ImageView
+        android:id="@+id/iv_destination_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/destination_arrow_description"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_compass_face"
+        app:layout_constraintEnd_toEndOf="@+id/iv_compass_face"
+        app:layout_constraintStart_toStartOf="@+id/iv_compass_face"
+        app:layout_constraintTop_toTopOf="@+id/iv_compass_face"
+        app:srcCompat="@drawable/arrow_small" />
+
+    <Button
+        android:id="@+id/btn_set_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/compass"
+        android:onClick="goToSetDirectionActivity"
+        android:paddingLeft="35dp"
+        android:paddingTop="15dp"
+        android:paddingRight="35dp"
+        android:paddingBottom="15dp"
+        android:text="@string/set_destination_button"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_compass_face" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
