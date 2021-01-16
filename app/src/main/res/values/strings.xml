@@ -24,4 +24,5 @@
     <string name="set_destination_latitude_hint">e.g. 51.140950</string>
     <string name="set_destination_longitude_title">Longitude:</string>
     <string name="set_destination_longitude_hint">e. g. 17.013501</string>
+    <string name="distance_info">"Distance from the destination: %1$sm"</string>
 </resources>

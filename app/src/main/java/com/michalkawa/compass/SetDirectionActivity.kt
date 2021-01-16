@@ -2,14 +2,15 @@ package com.michalkawa.compass
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
 class SetDirectionActivity : AppCompatActivity() {
 
-    lateinit var setLatitude: EditText
-    lateinit var setLongitude: EditText
+    var setLatitude: EditText? = null
+    var setLongitude: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +22,9 @@ class SetDirectionActivity : AppCompatActivity() {
 
     fun setDirectionAndClose(view: View) {
         val resultIntent = Intent()
-        resultIntent.putExtra(NavigationActivity.DIRECTION_EXTRA_VALUES_LATITUDE, setLatitude.text.toString())
-        resultIntent.putExtra(NavigationActivity.DIRECTION_EXTRA_VALUES_LONGITUDE, setLongitude.text.toString())
+        resultIntent.putExtra(NavigationActivity.DIRECTION_EXTRA_VALUES_LATITUDE, setLatitude!!.text.toString())
+        resultIntent.putExtra(NavigationActivity.DIRECTION_EXTRA_VALUES_LONGITUDE, setLongitude!!.text.toString())
+
         setResult(RESULT_OK, resultIntent)
         finish()
     }

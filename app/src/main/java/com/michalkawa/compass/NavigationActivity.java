@@ -37,7 +37,6 @@ public class NavigationActivity extends AppCompatActivity {
     private TextView distanceToDestination;
 
     private Boolean requestingLocationUpdates;
-    private String lastUpdateTime;
 
     private NavigationPresenter navigationPresenter;
     private SettingsClient settingsClient;
@@ -50,16 +49,11 @@ public class NavigationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        navigationPresenter = new NavigationPresenter(savedInstanceState, this);
-
-        distanceToDestination = findViewById(R.id.tv_distance_to_destination);
-
         requestingLocationUpdates = false;
-        lastUpdateTime = "";
-
+        navigationPresenter = new NavigationPresenter(savedInstanceState, this);
+        distanceToDestination = findViewById(R.id.tv_distance_to_destination);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         settingsClient = LocationServices.getSettingsClient(this);
-
         imageView = findViewById(R.id.iv_compass_face);
         destination_arrow = findViewById(R.id.iv_destination_arrow);
     }
@@ -73,7 +67,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     public void setDestinationDistance(String text) {
-        distanceToDestination.setText("Distance from the destination: " + text + "m");
+        distanceToDestination.setText(getString(R.string.distance_info, text));
     }
 
     public void goToSetDirectionActivity(View view) {
@@ -94,9 +88,10 @@ public class NavigationActivity extends AppCompatActivity {
 
             case REQUEST_DESTINATION_VALUES:
                 if (resultCode == Activity.RESULT_OK) {
-                    String setted_latitude = data.getStringExtra(DIRECTION_EXTRA_VALUES_LATITUDE); // PUBLIC_STATIC_STRING_IDENTIFIER
-                    String setted_longitude = data.getStringExtra(DIRECTION_EXTRA_VALUES_LONGITUDE); // PUBLIC_STATIC_STRING_IDENTIFIER
-                    navigationPresenter.setDestinationCoordinates(setted_latitude, setted_longitude);
+                    String settedLatitude = data.getStringExtra(DIRECTION_EXTRA_VALUES_LATITUDE);
+                    String settedLongitude = data.getStringExtra(DIRECTION_EXTRA_VALUES_LONGITUDE);
+                    Log.i("Distance - latitude", settedLatitude);
+                    navigationPresenter.setDestinationCoordinates(settedLatitude, settedLongitude);
                     destination_arrow.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -122,7 +117,6 @@ public class NavigationActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean(KEY_REQUESTING_LOCATION_UPDATES, requestingLocationUpdates);
         savedInstanceState.putParcelable(KEY_LOCATION, currentLocation);
-        savedInstanceState.putString(KEY_LAST_UPDATED_TIME_STRING, lastUpdateTime);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -139,18 +133,15 @@ public class NavigationActivity extends AppCompatActivity {
                 }
             } else {
                 navigationPresenter.showSnackbar(R.string.permission_denied_explanation,
-                        R.string.settings, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent();
-                                intent.setAction(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package",
-                                        BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
+                        R.string.settings, view -> {
+                            Intent intent = new Intent();
+                            intent.setAction(
+                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package",
+                                    BuildConfig.APPLICATION_ID, null);
+                            intent.setData(uri);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         });
             }
         }
